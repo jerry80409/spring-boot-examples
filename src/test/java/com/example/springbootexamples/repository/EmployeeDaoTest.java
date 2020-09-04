@@ -1,8 +1,6 @@
 package com.example.springbootexamples.repository;
 
-import com.example.springbootexamples.entity.Customer;
 import com.example.springbootexamples.entity.Employee;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class EmployeeDaoTest {
@@ -38,4 +35,5 @@ class EmployeeDaoTest {
     assertThat(employee.getFirstName(), is("George"));
     assertThat(employee.getLastName(), is("Harris"));
   }
+
 }
