@@ -61,7 +61,7 @@ CREATE TABLE members
 /* Table: customers */
 CREATE TABLE customers
 (
-    id          INT NOT NULL,
+    id          SERIAL PRIMARY KEY,
     last_name   VARCHAR(50),
     first_name  VARCHAR(50),
     email       VARCHAR(50),
@@ -72,14 +72,13 @@ CREATE TABLE customers
     city        VARCHAR(50),
     state       VARCHAR(50),
     postal_code VARCHAR(15),
-    country     VARCHAR(50),
-    PRIMARY KEY (id)
+    country     VARCHAR(50)
 );
 
 /* Table: employees */
 CREATE TABLE employees
 (
-    id          INT NOT NULL,
+    id          SERIAL PRIMARY KEY,
     last_name   VARCHAR(50),
     first_name  VARCHAR(50),
     email       VARCHAR(50),
@@ -93,14 +92,13 @@ CREATE TABLE employees
     city        VARCHAR(50),
     state       VARCHAR(50),
     postal_code VARCHAR(15),
-    country     VARCHAR(50),
-    PRIMARY KEY (id)
+    country     VARCHAR(50)
 );
 
 /* Table: orders */
 CREATE TABLE orders
 (
-    id               INT            NOT NULL,
+    id               SERIAL PRIMARY KEY,
     employee_id      INT,
     customer_id      INT,
     order_date       TIMESTAMP,
@@ -115,15 +113,14 @@ CREATE TABLE orders
     shipping_fee     DECIMAL(19, 4) NULL DEFAULT '0.0000',
     payment_type     VARCHAR(50),
     paid_date        TIMESTAMP,
-    order_status     VARCHAR(25),
-    PRIMARY KEY (id)
+    order_status     VARCHAR(25)
 );
 
 /* Table: order_details */
 CREATE TABLE order_items
 (
-    order_id          INT            NOT NULL,
-    product_id        INT,
+    order_id          INT NOT NULL,
+    product_id        INT NOT NULL,
     quantity          DECIMAL(18, 4) NOT NULL DEFAULT '0.0000',
     unit_price        DECIMAL(19, 4) NULL     DEFAULT '0.0000',
     discount          DECIMAL(19, 4) NULL     DEFAULT '0.0000',
@@ -135,7 +132,7 @@ CREATE TABLE order_items
 /* Table: products */
 CREATE TABLE products
 (
-    id                       INT            NOT NULL,
+    id                       SERIAL PRIMARY KEY,
     product_code             VARCHAR(25),
     product_name             VARCHAR(50),
     description              VARCHAR(250),
@@ -146,8 +143,7 @@ CREATE TABLE products
     minimum_reorder_quantity INT,
     quantity_per_unit        VARCHAR(50),
     discontinued             SMALLINT       NOT NULL DEFAULT '0',
-    category                 VARCHAR(50),
-    PRIMARY KEY (id)
+    category                 VARCHAR(50)
 );
 
 
@@ -290,6 +286,9 @@ insert into employees (id, last_name, first_name, email, phone, address1, addres
      ,(219, 'Myers'   , 'Roger'  , 'rmyersi@alexa.com', '1-(480)583-9583', '3 Eagle Crest Place', null, 'Gilbert', 'Arizona', '85297', 'United States', 'https://robohash.org/consequaturutquo.png?size=50x50&set=set1', 'Account Executive', 'Beauty', null)
      ,(220, 'Hunter'  , 'Bonnie' , 'bhunterj@ucsd.edu', '1-(320)933-5140', '99 Arapahoe Terrace', null, 'Saint Cloud', 'Minnesota', '56372', 'United States', 'https://robohash.org/etfacilisquo.bmp?size=50x50&set=set1', 'Analog Circuit Design manager', 'Baby', null);
 
+/* Updated Employees Seq */
+SELECT setval('employees_id_seq', (SELECT MAX(id) FROM employees));
+
 /* Products */
 insert into products (id, product_code, product_name, description, standard_cost, list_price, target_level, reorder_level, minimum_reorder_quantity, quantity_per_unit, discontinued, category) values
 (601, 'P1' , 'Nikon D810'            , null, 67.09, 23.39, 75, 67, 12, 50, 1, 'Camera')
@@ -312,6 +311,9 @@ insert into products (id, product_code, product_name, description, standard_cost
      ,(618, 'P18', 'Samsung Galaxy S7'     , null, 38.44, 62.34, 65, 4, 40, 54,  1, 'Phone' )
      ,(619, 'P19', 'Samasung Note'         , null, 47.58, 81.83, 53, 55, 24, 58, 1, 'Tablet')
      ,(620, 'P20', 'Chromebook 11.6'       , null, 25.81, 76.61, 11, 44, 43, 11, 1, 'Laptop');
+
+/* Updated Products Seq */
+SELECT setval('products_id_seq', (SELECT MAX(id) FROM products));
 
 /* Customers */
 insert into customers (id, last_name, first_name, email, company, phone, address1, address2, city, state, postal_code, country) values
@@ -416,7 +418,8 @@ insert into customers (id, last_name, first_name, email, company, phone, address
      ,(99, 'Chavez'  , 'Jeremy'   , 'jchavez2q@businessweek.com'  , 'Topicware'  , '1-(515)769-2045', '8584 Jay Street', null, 'Des Moines', 'Iowa', '50335', 'United States')
      ,(100, 'Kim'    , 'Pamela'   , 'pkim2r@stumbleupon.com'      , 'Photolist'  , '1-(510)144-4318', '3688 Gerald Trail', null, 'Sacramento', 'California', '95823', 'United States');
 
-
+/* Updated Customers Seq */
+SELECT setval('customers_id_seq', (SELECT MAX(id) FROM customers));
 
 /* orders */
 insert into orders (id, employee_id, customer_id, order_date, shipped_date, ship_name, ship_address1, ship_address2, ship_city, ship_state, ship_postal_code, ship_country, shipping_fee, payment_type, paid_date, order_status) values
@@ -1021,7 +1024,8 @@ insert into orders (id, employee_id, customer_id, order_date, shipped_date, ship
      ,(4599, 208, 29, '2016-04-16', '2016-05-15', 'Jimmy Mcdonald', '0 Dayton Place', null, 'Rochester', 'New York', '14646', 'United States', 1.56, 'Check', '2017-01-14', 'Complete')
      ,(4600, 208, 2 , '2016-04-26', '2016-04-06', 'Stephen Jacobs', '7131 Scoville Terrace', null, 'Phoenix', 'Arizona', '85020', 'United States', 4.52, 'Cash', '2017-01-22', 'On Hold');
 
-
+/* Updated Orders Seq */
+SELECT setval('orders_id_seq', (SELECT MAX(id) FROM orders));
 
 
 /* Order details */
