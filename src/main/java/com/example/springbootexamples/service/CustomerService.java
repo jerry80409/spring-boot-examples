@@ -1,6 +1,8 @@
 package com.example.springbootexamples.service;
 
+import com.example.springbootexamples.dto.CustomerReq;
 import com.example.springbootexamples.dto.CustomerResp;
+import com.example.springbootexamples.entity.Customer;
 import com.example.springbootexamples.mapper.CustomerMapper;
 import com.example.springbootexamples.repository.CustomerDao;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerService {
 
+  private static final CustomerMapper MAPPER = CustomerMapper.INSTANCE;
+
   private final CustomerDao customerDao;
+
 
   /**
    * find all
@@ -34,6 +39,17 @@ public class CustomerService {
    * @return
    */
   public Page<CustomerResp> all(Pageable pageable) {
-    return CustomerMapper.INSTANCE.from(customerDao.findAll(pageable));
+    return MAPPER.from(customerDao.findAll(pageable));
+  }
+
+  /**
+   * insert
+   *
+   * @param customerReq
+   * @return
+   */
+  public CustomerResp insert(CustomerReq customerReq) {
+    Customer persisted = customerDao.save(MAPPER.from(customerReq));
+    return MAPPER.from(persisted);
   }
 }
