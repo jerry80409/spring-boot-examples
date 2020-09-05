@@ -1,8 +1,10 @@
 
 ## Setup Docker-Compose
+可以透過 docker-compose 來啟動 PostgresSQL 環境.
 https://docs.docker.com/compose/install/
 
 ## NorthWind
+是個範例資料庫 (~ 2MB), 用來練習 JPA, 與 CRUD 操作.  
 https://github.com/pthom/northwind_psql
 
 ## Windows DockerCompose Issue
