@@ -33,7 +33,7 @@ public class CustomerService {
   }
 
   /**
-   * find all
+   * find all by page
    *
    * @param pageable
    * @return
@@ -51,5 +51,31 @@ public class CustomerService {
   public CustomerResp insert(CustomerReq customerReq) {
     Customer persisted = customerDao.save(MAPPER.from(customerReq));
     return MAPPER.from(persisted);
+  }
+
+  /**
+   * update
+   *
+   * @param id
+   * @param customerReq
+   * @return
+   */
+  public CustomerResp update(Integer id, CustomerReq customerReq) {
+    Customer persisted = customerDao.findById(id)
+        .orElseThrow(() -> new RuntimeException("Customer not found, id: " + id));
+    Customer preUpdate = MAPPER.copy(customerReq, persisted);
+    Customer updated = customerDao.save(preUpdate);
+    return MAPPER.from(updated);
+  }
+
+  /**
+   * delete
+   *
+   * @param id
+   */
+  public void delete(Integer id) {
+    Customer persisted = customerDao.findById(id)
+        .orElseThrow(() -> new RuntimeException("Customer not found, id: " + id));
+    customerDao.delete(persisted);
   }
 }

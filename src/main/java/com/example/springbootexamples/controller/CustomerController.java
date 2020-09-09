@@ -36,6 +36,12 @@ public class CustomerController {
     return ResponseEntity.ok(customerService.all(pageable));
   }
 
+  /**
+   * 新增 Customer 資料, 新增完畢會透過 MapperStruct 隱藏敏感資料.
+   *
+   * @param customerReq
+   * @return
+   */
   @PostMapping
   ResponseEntity<CustomerResp> insert(@RequestBody CustomerReq customerReq) {
     return ResponseEntity.ok(customerService.insert(customerReq));
