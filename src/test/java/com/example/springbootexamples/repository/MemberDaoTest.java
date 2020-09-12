@@ -8,9 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class MemberDaoTest {
@@ -39,5 +41,17 @@ class MemberDaoTest {
     assertThat(member.getFirstName(), is("Mrinmoy"));
     assertThat(member.getLastName(), is("Majumdar"));
     assertThat(role, is(Role.USER));
+  }
+
+  /**
+   * JPA 的 distinct 會對所有欄位做 distinct
+   * select distinct user_id, address1, address2... etc
+   * from member
+   * where fist_name = ?
+   */
+  @Test
+  void getDistinctByFistName(){
+    List<Member> list = memberDao.findDistinctByFirstName("123");
+    assertTrue(list.isEmpty());
   }
 }
